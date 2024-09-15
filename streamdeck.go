@@ -31,6 +31,7 @@ const (
 	PID_STREAMDECK_MINI     = 0x0063
 	PID_STREAMDECK_MINI_MK2 = 0x0090
 	PID_STREAMDECK_XL       = 0x006c
+	PID_STREAMDECK_NEO      = 0x009a
 )
 
 // Firmware command IDs.
@@ -178,6 +179,29 @@ func Devices() ([]Device, error) {
 				Columns:              8,
 				Rows:                 4,
 				Keys:                 32,
+				Pixels:               96,
+				DPI:                  166,
+				Padding:              16,
+				featureReportSize:    32,
+				firmwareOffset:       6,
+				keyStateOffset:       4,
+				translateKeyIndex:    identity,
+				imagePageSize:        1024,
+				imagePageHeaderSize:  8,
+				imagePageHeader:      rev2ImagePageHeader,
+				flipImage:            flipHorizontallyAndVertically,
+				toImageFormat:        toJPEG,
+				getFirmwareCommand:   c_REV2_FIRMWARE,
+				resetCommand:         c_REV2_RESET,
+				setBrightnessCommand: c_REV2_BRIGHTNESS,
+			}
+		case d.VendorID == VID_ELGATO && d.ProductID == PID_STREAMDECK_NEO:
+			dev = Device{
+				ID:                   d.Path,
+				Serial:               d.Serial,
+				Columns:              4,
+				Rows:                 3,
+				Keys:                 10,
 				Pixels:               96,
 				DPI:                  166,
 				Padding:              16,
